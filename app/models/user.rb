@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
-  validates :user_name, :password_digest, :session_token, presence: true
+  validates :user_name, :password_digest, presence: true
   validates :password, length: {minimum: 6, allow_nil: true}
-  validates :user_name, :session_token, uniqueness: true
+  validates :user_name, uniqueness: true
 
   attr_reader :password
 
@@ -9,6 +9,7 @@ class User < ActiveRecord::Base
 
   has_many :cats
   has_many :cat_rental_requests
+  has_many :sessions
 
   def self.find_by_credentials(user_name, password)
     user = User.find_by_user_name(user_name)
@@ -16,10 +17,10 @@ class User < ActiveRecord::Base
     nil
   end
 
-  def reset_session_token!
-    self.session_token = SecureRandom::urlsafe_base64
-    self.save
-    self.session_token
+  def self.find_by_session_token(session_token)
+    session = Session.find_by_session_token(session_token)
+    return session.user if session
+    nil
   end
 
   def password=(password)
@@ -32,7 +33,12 @@ class User < ActiveRecord::Base
     bc_object.is_password?(password)
   end
 
+  def session_token
+    token = SecureRandom::urlsafe_base64
+    Session.create(user_id: self.id, session_token: token)
+  end
+
   def ensure_session_token
-    self.session_token ||= SecureRandom::urlsafe_base64
+    @session_token ||= session_token
   end
 end
