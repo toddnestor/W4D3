@@ -1,0 +1,17 @@
+<%# action_url = (action == :login) ? session_url : new_user_url %>
+
+<form class="" action="<%= action %>" method="post">
+  <%= render 'shared/token' %>
+
+  <label>
+    Username:
+    <input type="text" name="user[user_name]">
+  </label>
+  <label>
+    Password:
+    <input type="password" name="user[password]">
+  </label>
+
+  <button>Submit</button>
+
+</form>
