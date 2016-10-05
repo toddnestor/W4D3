@@ -1,11 +1,15 @@
 class CatsController < ApplicationController
 
-  before_action :set_cat, only: [:show, :edit, :update]
+  before_action :set_cat, only: [:edit, :update]
   before_action :validate_owner, only: [:edit, :update]
 
   def index
     @cats = Cat.all
     render :index
+  end
+
+  def show
+    @cat = Cat.includes(:rental_requests => [:user]).find(params[:id])
   end
 
   def new
