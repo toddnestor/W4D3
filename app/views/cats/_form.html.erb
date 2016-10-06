@@ -48,7 +48,10 @@
     <%= cat.sex == "F" ? "checked" : "" %>>
   <label for="cat_sex_female">Female</label>
   <br>
-
+  <label>
+    Image:
+    <input type="text" name="cat[picture]" placeholder="add a url for an image" />
+  </label>
   <label>
     Description
     <textarea name="cat[description]"><%= cat.description %></textarea>

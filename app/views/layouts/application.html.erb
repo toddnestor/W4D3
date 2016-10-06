@@ -1,21 +1,23 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
   <title>NinetyNineCatsDay1</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
 <body>
+<div class="col-offset-3 col-6">
+  <% if current_user %>
+    <h3 style="font-family: 'Comic Sans MS'; color: #0f0;">Hi <%= current_user.user_name %>!</h3>
+    <%= button_to "Log out", session_url, method: :delete %>
+  <% else %>
+    <%= button_to "Log in", new_session_url, method: :get %>
+  <% end %>
 
-<% if current_user %>
-  <h3 style="font-family: 'Comic Sans MS'; color: #0f0;">Hi <%= current_user.user_name %>!</h3>
-  <%= button_to "Log out", session_url, method: :delete %>
-<% else %>
-  <%= button_to "Log in", new_session_url, method: :get %>
-<% end %>
-
-<%= render 'shared/errors' %>
+  <%= render 'shared/errors' %>
+</div>
 
 <%= yield %>
 
